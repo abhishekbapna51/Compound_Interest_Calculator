@@ -1,0 +1,298 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound Interest Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .time-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        #result p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Compound Interest Calculator</h1>
+        <form id="interestForm">
+            <label for="principal">Principal Amount\मूल राशि(₹):</label>
+            <input type="number" id="principal" required>
+
+            <label for="rate">Monthly Interest Rate\ब्याज दर प्रति महीना(1,1.5,2,3...) (%):</label>
+            <input type="number" id="rate" step="0.01" required>
+
+            <label for="years">Time Period\समय अंतराल:</label>
+            <div class="time-input">
+                <input type="number" id="years" placeholder="Years" required>
+                <input type="number" id="months" placeholder="Months" required>
+                <input type="number" id="days" placeholder="Days" required>
+            </div>
+
+            <button type="submit">Calculate</button>
+        </form>
+
+        <div id="result">
+            <p id="principalAmount"></p>
+            <p id="interestAmount"></p>
+            <p id="totalAmount"></p>
+        </div>
+        <div class="copyright">
+            © Abhishek_Bapna_2025
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('interestForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get input values
+            const principal = parseFloat(document.getElementById('principal').value);
+            const rate = parseFloat(document.getElementById('rate').value);
+            const years = parseInt(document.getElementById('years').value);
+            const months = parseInt(document.getElementById('months').value);
+            const days = parseInt(document.getElementById('days').value);
+
+            // Convert time to total years
+            const totalYears = years + months / 12 + days / 365;
+
+            // Calculate compound interest for full years
+            let amount = principal;
+            for (let i = 0; i < years; i++) {
+                amount += amount * (rate * 12 / 100); // Annual interest
+            }
+
+            // Calculate interest for remaining months and days
+            const remainingMonths = months + days / 30;
+            if (remainingMonths > 0) {
+                amount += amount * (rate * remainingMonths / 100);
+            }
+
+            // Calculate interest amount
+            const interest = amount - principal;
+
+            // Display results
+            document.getElementById('principalAmount').textContent = `Principal Amount: ₹${principal.toFixed(2)}`;
+            document.getElementById('interestAmount').textContent = `Interest Amount: ₹${interest.toFixed(2)}`;
+            document.getElementById('totalAmount').textContent = `Total Amount: ₹${amount.toFixed(2)}`;
+        });
+    </script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound Interest Calculator | चक्रवृद्धि ब्याज कैलकुलेटर</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .time-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        #result p {
+            margin: 5px 0;
+        }
+
+        .copyright {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Compound Interest Calculator | चक्रवृद्धि ब्याज कैलकुलेटर</h1>
+        <form id="interestForm">
+            <label for="principal">Principal Amount | मूल राशि (₹):</label>
+            <input type="number" id="principal" required>
+
+            <label for="rate">Monthly Interest Rate | मासिक ब्याज दर (1, 1.5, 2, 3...) (%):</label>
+            <input type="number" id="rate" step="0.01" required>
+
+            <label for="years">Time Period | समय अवधि:</label>
+            <div class="time-input">
+                <input type="number" id="years" placeholder="Years | वर्ष" required>
+                <input type="number" id="months" placeholder="Months | महीने" required>
+                <input type="number" id="days" placeholder="Days | दिन" required>
+            </div>
+
+            <button type="submit">Calculate | गणना करें</button>
+        </form>
+
+        <div id="result">
+            <p id="principalAmount"></p>
+            <p id="interestAmount"></p>
+            <p id="totalAmount"></p>
+        </div>
+        
+        <div class="copyright">
+            &copy; Abhishek_Bapna_2025
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('interestForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get input values
+            const principal = parseFloat(document.getElementById('principal').value);
+            const rate = parseFloat(document.getElementById('rate').value);
+            const years = parseInt(document.getElementById('years').value);
+            const months = parseInt(document.getElementById('months').value);
+            const days = parseInt(document.getElementById('days').value);
+
+            // Convert time to total years
+            const totalYears = years + months / 12 + days / 365;
+
+            // Calculate compound interest for full years
+            let amount = principal;
+            for (let i = 0; i < years; i++) {
+                amount += amount * (rate * 12 / 100); // Annual interest
+            }
+
+            // Calculate interest for remaining months and days
+            const remainingMonths = months + days / 30;
+            if (remainingMonths > 0) {
+                amount += amount * (rate * remainingMonths / 100);
+            }
+
+            // Calculate interest amount
+            const interest = amount - principal;
+
+            // Display results
+            document.getElementById('principalAmount').textContent = `Principal Amount | मूल राशि: ₹${principal.toFixed(2)}`;
+            document.getElementById('interestAmount').textContent = `Interest Amount | ब्याज राशि: ₹${interest.toFixed(2)}`;
+            document.getElementById('totalAmount').textContent = `Total Amount | कुल राशि: ₹${amount.toFixed(2)}`;
+        });
+    </script>
+</body>
+
+</html>
