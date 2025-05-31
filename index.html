@@ -11,7 +11,6 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
-            /* add some padding so container doesn't stick to edges on small screens */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,7 +24,6 @@
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
             width: 100%;
             max-width: 400px;
-            /* max width for larger screens */
             box-sizing: border-box;
             text-align: center;
         }
@@ -127,7 +125,38 @@
             color: #777;
         }
 
-        /* Responsive Adjustments */
+        .helper-text {
+            font-size: 12px;
+            color: #555;
+            margin-top: -14px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .download-btn {
+            background-color: #007bff;
+            margin-top: 15px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .download-btn:hover {
+            background-color: #0069d9;
+        }
+
+        .input-description {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-top: -5px;
+            margin-bottom: 15px;
+        }
+
         @media (max-width: 480px) {
             body {
                 padding: 15px;
@@ -166,8 +195,14 @@
             .time-input input {
                 width: 100%;
             }
+
+            .input-description {
+                flex-direction: column;
+                gap: 3px;
+            }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
@@ -187,10 +222,15 @@
 
             <div id="durationInput">
                 <label for="years">Time Period | समय अवधि:</label>
+                <div class="input-description">
+                    <span>Years (वर्ष)</span>
+                    <span>Months (महीने)</span>
+                    <span>Days (दिन)</span>
+                </div>
                 <div class="time-input">
-                    <input type="number" id="years" min="0" placeholder="Years | वर्ष" value="0" />
-                    <input type="number" id="months" min="0" max="11" placeholder="Months | महीने" value="0" />
-                    <input type="number" id="days" min="0" max="30" placeholder="Days | दिन" value="0" />
+                    <input type="number" id="years" min="0" placeholder="0" value="0" />
+                    <input type="number" id="months" min="0" max="11" placeholder="0" value="0" />
+                    <input type="number" id="days" min="0" max="30" placeholder="0" value="0" />
                 </div>
             </div>
 
@@ -211,20 +251,30 @@
             <!-- Results will appear here -->
         </div>
 
+        <button id="downloadPdf" class="download-btn hidden">Download as PDF | पीडीएफ डाउनलोड करें</button>
+
         <div class="copyright">&copy; Abhishek_Bapna_2025</div>
     </div>
 
     <script>
-        // Set max date to today for start date
+        // Set max date to today
         const startDateInput = document.getElementById('startDate');
         startDateInput.max = new Date().toISOString().split('T')[0];
+
+        // Toggle between date and duration input
+        document.querySelectorAll('input[name="timeType"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                const type = document.querySelector('input[name="timeType"]:checked').value;
+                document.getElementById('durationInput').classList.toggle('hidden', type !== 'duration');
+                document.getElementById('dateInput').classList.toggle('hidden', type !== 'date');
+            });
+        });
 
         document.getElementById('interestForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
             const principal = parseFloat(document.getElementById('principal').value);
             const rate = parseFloat(document.getElementById('rate').value);
-
             let years = 0, months = 0, days = 0;
             let timePeriodText = '';
 
@@ -254,13 +304,14 @@
                     months += 12;
                 }
 
-                timePeriodText = `Time Period | अवधि: ${years} वर्ष, ${months} महीने, ${days} दिन (दिनांक ${startDate.toLocaleDateString()} से ${today.toLocaleDateString()} तक)`;
+                const formattedStartDate = startDate.toLocaleDateString('en-IN');
+                const formattedToday = today.toLocaleDateString('en-IN');
+                timePeriodText = `Time Period | अवधि: ${years} वर्ष, ${months} महीने, ${days} दिन (${formattedStartDate} to ${formattedToday})`;
             }
 
             // Compound interest calculation
             let amount = principal;
 
-            // Compound for full years (monthly compounding annualized)
             for (let i = 0; i < years; i++) {
                 amount += amount * (rate * 12 / 100);
             }
@@ -276,23 +327,61 @@
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
                 <p>Principal Amount | मूल राशि: ₹${principal.toFixed(2)}</p>
-                <p>Interest Amount | ब्याज राशि: ₹${interest.toFixed(2)}</p>
-                <p>Total Amount | कुल राशि: ₹${amount.toFixed(2)}</p>
                 <p>${timePeriodText}</p>
+                <p>Interest Rate | ब्याज दर: ${rate}% per month | प्रति माह</p>
+                <p>Interest Amount | ब्याज राशि: ₹${interest.toFixed(2)}</p>
+                <p><strong>Total Amount | कुल राशि: ₹${amount.toFixed(2)}</strong></p>
             `;
+
+            // Show download button
+            document.getElementById('downloadPdf').classList.remove('hidden');
         });
 
-        // Toggle input fields
-        document.querySelectorAll('input[name="timeType"]').forEach(radio => {
-            radio.addEventListener('change', function () {
-                if (this.value === 'duration') {
-                    document.getElementById('durationInput').classList.remove('hidden');
-                    document.getElementById('dateInput').classList.add('hidden');
+        // PDF Download functionality - UPDATED with better formatting
+        document.getElementById('downloadPdf').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Set font
+            doc.setFont('helvetica', 'normal');
+
+            // Add title
+            doc.setFontSize(18);
+            doc.text('Compound Interest Calculation', 105, 20, { align: 'center' });
+
+            // Add current date
+            const today = new Date();
+            doc.setFontSize(10);
+            doc.text(`Report generated on: ${today.toLocaleDateString('en-IN')}`, 105, 28, { align: 'center' });
+
+            // Get all result elements
+            const resultItems = document.querySelectorAll('#result p');
+
+            // Add content to PDF
+            doc.setFontSize(12);
+            let yPosition = 50;
+
+            resultItems.forEach(item => {
+                const text = item.textContent.replace(/[^\x00-\x7F]/g, '').trim();
+
+                if (text.includes('Total Amount')) {
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(text, 14, yPosition);
+                    doc.setFont('helvetica', 'normal');
                 } else {
-                    document.getElementById('durationInput').classList.add('hidden');
-                    document.getElementById('dateInput').classList.remove('hidden');
+                    doc.text(text, 14, yPosition);
                 }
+
+                yPosition += 8;
             });
+
+
+            // Add footer
+            doc.setFontSize(10);
+            doc.text('© Abhishek_Bapna_2025', 105, 280, { align: 'center' });
+
+            // Save the PDF
+            doc.save('Interest_Calculation_Report.pdf');
         });
     </script>
 </body>
