@@ -1,209 +1,104 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compound Interest Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .time-input {
-            display: flex;
-            gap: 10px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        #result {
-            margin-top: 20px;
-            text-align: left;
-        }
-
-        #result p {
-            margin: 5px 0;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <h1>Compound Interest Calculator</h1>
-        <form id="interestForm">
-            <label for="principal">Principal Amount\मूल राशि(₹):</label>
-            <input type="number" id="principal" required>
-
-            <label for="rate">Monthly Interest Rate\ब्याज दर प्रति महीना(1,1.5,2,3...) (%):</label>
-            <input type="number" id="rate" step="0.01" required>
-
-            <label for="years">Time Period\समय अंतराल:</label>
-            <div class="time-input">
-                <input type="number" id="years" placeholder="Years" required>
-                <input type="number" id="months" placeholder="Months" required>
-                <input type="number" id="days" placeholder="Days" required>
-            </div>
-
-            <button type="submit">Calculate</button>
-        </form>
-
-        <div id="result">
-            <p id="principalAmount"></p>
-            <p id="interestAmount"></p>
-            <p id="totalAmount"></p>
-        </div>
-        <div class="copyright">
-            © Abhishek_Bapna_2025
-        </div>
-    </div>
-
-    <script>
-        document.getElementById('interestForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            // Get input values
-            const principal = parseFloat(document.getElementById('principal').value);
-            const rate = parseFloat(document.getElementById('rate').value);
-            const years = parseInt(document.getElementById('years').value);
-            const months = parseInt(document.getElementById('months').value);
-            const days = parseInt(document.getElementById('days').value);
-
-            // Convert time to total years
-            const totalYears = years + months / 12 + days / 365;
-
-            // Calculate compound interest for full years
-            let amount = principal;
-            for (let i = 0; i < years; i++) {
-                amount += amount * (rate * 12 / 100); // Annual interest
-            }
-
-            // Calculate interest for remaining months and days
-            const remainingMonths = months + days / 30;
-            if (remainingMonths > 0) {
-                amount += amount * (rate * remainingMonths / 100);
-            }
-
-            // Calculate interest amount
-            const interest = amount - principal;
-
-            // Display results
-            document.getElementById('principalAmount').textContent = `Principal Amount: ₹${principal.toFixed(2)}`;
-            document.getElementById('interestAmount').textContent = `Interest Amount: ₹${interest.toFixed(2)}`;
-            document.getElementById('totalAmount').textContent = `Total Amount: ₹${amount.toFixed(2)}`;
-        });
-    </script>
-</body>
-
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Compound Interest Calculator | चक्रवृद्धि ब्याज कैलकुलेटर</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
+            padding: 20px;
+            /* add some padding so container doesn't stick to edges on small screens */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .container {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 320px;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 400px;
+            /* max width for larger screens */
+            box-sizing: border-box;
             text-align: center;
         }
 
         h1 {
-            margin-bottom: 20px;
-            font-size: 22px;
+            margin-bottom: 25px;
+            font-size: 24px;
+            line-height: 1.2;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 7px;
+            font-weight: 600;
+            font-size: 16px;
         }
 
-        input {
+        input[type="number"],
+        input[type="date"] {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            border: 1.5px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input[type="number"]:focus,
+        input[type="date"]:focus {
+            border-color: #28a745;
+            outline: none;
         }
 
         .time-input {
             display: flex;
             gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .time-input input {
+            flex: 1;
+            padding: 10px 8px;
+            font-size: 15px;
+        }
+
+        .time-option {
+            margin-bottom: 15px;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .time-option input[type="radio"] {
+            width: auto;
+            margin: 0;
+            cursor: pointer;
         }
 
         button {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background-color: #28a745;
             color: #fff;
+            font-size: 18px;
+            font-weight: 600;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
@@ -211,86 +106,193 @@
         }
 
         #result {
-            margin-top: 20px;
+            margin-top: 25px;
             text-align: left;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #e9f7ef;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: inset 0 0 5px #c3e6cb;
         }
 
         #result p {
-            margin: 5px 0;
+            margin: 8px 0;
         }
 
         .copyright {
-            margin-top: 15px;
-            font-size: 12px;
-            color: #666;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 20px 20px;
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            label,
+            .time-option {
+                font-size: 14px;
+            }
+
+            input[type="number"],
+            input[type="date"] {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .time-input {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .time-input input {
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Compound Interest Calculator | चक्रवृद्धि ब्याज कैलकुलेटर</h1>
+        <h1>Compound Interest Calculator<br>चक्रवृद्धि ब्याज कैलकुलेटर</h1>
         <form id="interestForm">
             <label for="principal">Principal Amount | मूल राशि (₹):</label>
-            <input type="number" id="principal" required>
+            <input type="number" id="principal" min="0" step="0.01" placeholder="₹ राशि दर्ज करें" required />
 
-            <label for="rate">Monthly Interest Rate | मासिक ब्याज दर (1, 1.5, 2, 3...) (%):</label>
-            <input type="number" id="rate" step="0.01" required>
+            <label for="rate">Monthly Interest Rate | मासिक ब्याज दर (%) :</label>
+            <input type="number" id="rate" min="0" step="0.01" placeholder="जैसे 1, 1.5, 2..." required />
 
-            <label for="years">Time Period | समय अवधि:</label>
-            <div class="time-input">
-                <input type="number" id="years" placeholder="Years | वर्ष" required>
-                <input type="number" id="months" placeholder="Months | महीने" required>
-                <input type="number" id="days" placeholder="Days | दिन" required>
+            <div class="time-option">
+                <input type="radio" id="durationType" name="timeType" value="duration" checked />
+                <label for="durationType">Enter Duration | अवधि दर्ज करें</label>
+            </div>
+
+            <div id="durationInput">
+                <label for="years">Time Period | समय अवधि:</label>
+                <div class="time-input">
+                    <input type="number" id="years" min="0" placeholder="Years | वर्ष" value="0" />
+                    <input type="number" id="months" min="0" max="11" placeholder="Months | महीने" value="0" />
+                    <input type="number" id="days" min="0" max="30" placeholder="Days | दिन" value="0" />
+                </div>
+            </div>
+
+            <div class="time-option">
+                <input type="radio" id="dateType" name="timeType" value="date" />
+                <label for="dateType">Select Loan Start Date | ऋण प्रारंभ तिथि चुनें</label>
+            </div>
+
+            <div id="dateInput" class="hidden">
+                <label for="startDate">Loan Start Date | ऋण प्रारंभ तिथि:</label>
+                <input type="date" id="startDate" max="" />
             </div>
 
             <button type="submit">Calculate | गणना करें</button>
         </form>
 
-        <div id="result">
-            <p id="principalAmount"></p>
-            <p id="interestAmount"></p>
-            <p id="totalAmount"></p>
+        <div id="result" aria-live="polite" role="region" aria-label="Calculation results">
+            <!-- Results will appear here -->
         </div>
-        
-        <div class="copyright">
-            &copy; Abhishek_Bapna_2025
-        </div>
+
+        <div class="copyright">&copy; Abhishek_Bapna_2025</div>
     </div>
 
     <script>
+        // Set max date to today for start date
+        const startDateInput = document.getElementById('startDate');
+        startDateInput.max = new Date().toISOString().split('T')[0];
+
         document.getElementById('interestForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            // Get input values
             const principal = parseFloat(document.getElementById('principal').value);
             const rate = parseFloat(document.getElementById('rate').value);
-            const years = parseInt(document.getElementById('years').value);
-            const months = parseInt(document.getElementById('months').value);
-            const days = parseInt(document.getElementById('days').value);
 
-            // Convert time to total years
-            const totalYears = years + months / 12 + days / 365;
+            let years = 0, months = 0, days = 0;
+            let timePeriodText = '';
 
-            // Calculate compound interest for full years
-            let amount = principal;
-            for (let i = 0; i < years; i++) {
-                amount += amount * (rate * 12 / 100); // Annual interest
+            const timeType = document.querySelector('input[name="timeType"]:checked').value;
+
+            if (timeType === 'duration') {
+                years = parseInt(document.getElementById('years').value) || 0;
+                months = parseInt(document.getElementById('months').value) || 0;
+                days = parseInt(document.getElementById('days').value) || 0;
+                timePeriodText = `Time Period | अवधि: ${years} वर्ष, ${months} महीने, ${days} दिन`;
+            } else {
+                const startDate = new Date(document.getElementById('startDate').value);
+                const today = new Date();
+
+                years = today.getFullYear() - startDate.getFullYear();
+                months = today.getMonth() - startDate.getMonth();
+                days = today.getDate() - startDate.getDate();
+
+                if (days < 0) {
+                    months--;
+                    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+                    days += lastDayOfMonth;
+                }
+
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                timePeriodText = `Time Period | अवधि: ${years} वर्ष, ${months} महीने, ${days} दिन (दिनांक ${startDate.toLocaleDateString()} से ${today.toLocaleDateString()} तक)`;
             }
 
-            // Calculate interest for remaining months and days
+            // Compound interest calculation
+            let amount = principal;
+
+            // Compound for full years (monthly compounding annualized)
+            for (let i = 0; i < years; i++) {
+                amount += amount * (rate * 12 / 100);
+            }
+
             const remainingMonths = months + days / 30;
             if (remainingMonths > 0) {
                 amount += amount * (rate * remainingMonths / 100);
             }
 
-            // Calculate interest amount
             const interest = amount - principal;
 
-            // Display results
-            document.getElementById('principalAmount').textContent = `Principal Amount | मूल राशि: ₹${principal.toFixed(2)}`;
-            document.getElementById('interestAmount').textContent = `Interest Amount | ब्याज राशि: ₹${interest.toFixed(2)}`;
-            document.getElementById('totalAmount').textContent = `Total Amount | कुल राशि: ₹${amount.toFixed(2)}`;
+            // Show results
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p>Principal Amount | मूल राशि: ₹${principal.toFixed(2)}</p>
+                <p>Interest Amount | ब्याज राशि: ₹${interest.toFixed(2)}</p>
+                <p>Total Amount | कुल राशि: ₹${amount.toFixed(2)}</p>
+                <p>${timePeriodText}</p>
+            `;
+        });
+
+        // Toggle input fields
+        document.querySelectorAll('input[name="timeType"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                if (this.value === 'duration') {
+                    document.getElementById('durationInput').classList.remove('hidden');
+                    document.getElementById('dateInput').classList.add('hidden');
+                } else {
+                    document.getElementById('durationInput').classList.add('hidden');
+                    document.getElementById('dateInput').classList.remove('hidden');
+                }
+            });
         });
     </script>
 </body>
