@@ -45,13 +45,12 @@ https://abhishekbapna51.github.io/Compound_Interest_Calculator/
 ### 1. Input Options
 Users can choose between two modes:
 **a. Duration Mode**  
-Enter:
 - Years  
 - Months  
-- Days  
+- Days
+  
 **b. Date Mode**  
-Select:
-- Loan start date  
+- Loan start date
 The application auto-computes time duration up to today's date.
 
 ---
@@ -79,14 +78,15 @@ index.html
 ```
 
 ---
+
 ### PDF Report Generation
 ## The application uses jsPDF to create a downloadable report that includes:
--- Principal amount
--- Time duration
--- Interest rate
--- Interest amount
--- Total payable amount
--- The PDF is formatted for readability and includes a footer signature.
+- Principal amount
+- Time duration
+- Interest rate
+- Interest amount
+- Total payable amount
+- The PDF is formatted for readability and includes a footer signature.
 
 ---
 Author
