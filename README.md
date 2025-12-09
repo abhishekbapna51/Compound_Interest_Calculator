@@ -44,6 +44,7 @@ https://abhishekbapna51.github.io/Compound_Interest_Calculator/
 
 ### 1. Input Options
 Users can choose between two modes:
+
 **a. Duration Mode**  
 - Years  
 - Months  
